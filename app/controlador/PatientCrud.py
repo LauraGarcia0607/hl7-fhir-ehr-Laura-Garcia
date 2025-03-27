@@ -28,10 +28,10 @@ def WritePatient(patient_dict: dict):
     else:
         return "errorInserting", None
 
-def GetPatientByIdentifier(system, value):
+def GetPatientByIdentifier(patientSystem,patientVvalue):
     try:
         print(f"🔍 Buscando en MongoDB con system={system}, value={value}")  # <-- Agregar este log
-        patient = collection.find_one({"identifier.system": system, "identifier.value": value})  
+        patient = collection.find_one({"identifier.system": ObjectId(patient_id)})  
         
         if patient:
             patient["_id"] = str(patient["_id"])
@@ -41,5 +41,4 @@ def GetPatientByIdentifier(system, value):
         print("⚠️ Paciente no encontrado")  # <-- Log si no encuentra nada
         return "notFound", None
     except Exception as e:
-        print(f"❌ Error en GetPatientByIdentifier: {e}")  # <-- Log de error
-        return "internalError", None
+        return f"error:{str(e)}", None  # <-- Log de error
